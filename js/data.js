@@ -27,7 +27,7 @@
       address: "İstanbul, Türkiye",
       adminUsername: "admin",
       adminPassword: "123456",
-      heroTitle: "Küçük işletmeler için hazır e-ticaret vitrini",
+      heroTitle: "KOBİLER için hazır e-ticaret vitrini",
       heroSubtitle:
         "Ürünlerini fotoğrafla ekle, kategorilerini düzenle, sipariş akışını tek panelden takip et.",
       shippingFee: 79,
