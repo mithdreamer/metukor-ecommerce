@@ -1,0 +1,28 @@
+[
+  {
+    "id": "ord-demo-1",
+    "number": "SP-2026-0001",
+    "customer": {
+      "name": "Demo Müşteri",
+      "email": "demo@musteri.com",
+      "phone": "+90 555 111 22 33",
+      "address": "Örnek Mah. No: 1",
+      "city": "İstanbul"
+    },
+    "items": [
+      {
+        "productId": "prd-ceramic-mug",
+        "name": "El Yapımı Seramik Kupa",
+        "quantity": 2,
+        "price": 329
+      }
+    ],
+    "subtotal": 658,
+    "shipping": 79,
+    "total": 737,
+    "status": "new",
+    "paymentMethod": "Kapıda ödeme",
+    "note": "Demo sipariş kaydı.",
+    "createdAt": "2026-01-20T11:30:00.000Z"
+  }
+]

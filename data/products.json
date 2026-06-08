@@ -1,0 +1,54 @@
+[
+  {
+    "id": "prd-ceramic-mug",
+    "name": "El Yapımı Seramik Kupa",
+    "slug": "el-yapimi-seramik-kupa",
+    "sku": "EV-1001",
+    "categoryId": "cat-home",
+    "shortDescription": "Mat dokulu, günlük kullanıma uygun seramik kupa.",
+    "price": 329,
+    "oldPrice": 399,
+    "stock": 28,
+    "active": true,
+    "featured": true
+  },
+  {
+    "id": "prd-linen-tote",
+    "name": "Keten Omuz Çantası",
+    "slug": "keten-omuz-cantasi",
+    "sku": "TX-2044",
+    "categoryId": "cat-textile",
+    "shortDescription": "Günlük kullanım için astarlı keten çanta.",
+    "price": 549,
+    "oldPrice": 0,
+    "stock": 16,
+    "active": true,
+    "featured": true
+  },
+  {
+    "id": "prd-gift-box",
+    "name": "Butik Hediye Kutusu",
+    "slug": "butik-hediye-kutusu",
+    "sku": "HD-3012",
+    "categoryId": "cat-gift",
+    "shortDescription": "Hazır paketli, kişisel not eklenebilir hediye seti.",
+    "price": 899,
+    "oldPrice": 1099,
+    "stock": 9,
+    "active": true,
+    "featured": true
+  },
+  {
+    "id": "prd-desk-organizer",
+    "name": "Ahşap Masa Düzenleyici",
+    "slug": "ahsap-masa-duzenleyici",
+    "sku": "OF-4408",
+    "categoryId": "cat-office",
+    "shortDescription": "Telefon, kalem ve not kağıdı için kompakt düzenleyici.",
+    "price": 749,
+    "oldPrice": 0,
+    "stock": 22,
+    "active": true,
+    "featured": false
+  }
+]

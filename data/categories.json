@@ -1,0 +1,30 @@
+[
+  {
+    "id": "cat-home",
+    "name": "Ev Yaşam",
+    "slug": "ev-yasam",
+    "description": "Dekoratif ve günlük kullanıma uygun ürünler.",
+    "active": true
+  },
+  {
+    "id": "cat-textile",
+    "name": "Tekstil",
+    "slug": "tekstil",
+    "description": "Kumaş, havlu, çanta ve aksesuar çeşitleri.",
+    "active": true
+  },
+  {
+    "id": "cat-gift",
+    "name": "Hediye",
+    "slug": "hediye",
+    "description": "Özel günlere uygun butik hediyelikler.",
+    "active": true
+  },
+  {
+    "id": "cat-office",
+    "name": "Ofis",
+    "slug": "ofis",
+    "description": "Masa üstü ve çalışma alanı ürünleri.",
+    "active": true
+  }
+]

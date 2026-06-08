@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Firma Store | E-Ticaret Şablonu</title>
+    <meta name="description" content="Küçük işletmeler için yönetilebilir e-ticaret şablonu.">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="components/navbar/navbar.css">
+    <link rel="stylesheet" href="components/footer/footer.css">
+    <link rel="stylesheet" href="components/product-card/product-card.css">
+  </head>
+  <body data-page="home">
+    <div data-component="navbar"></div>
+
+    <main>
+      <section class="container hero">
+        <div class="hero-copy">
+          <span class="badge">Hazır mağaza altyapısı</span>
+          <h1 data-setting="heroTitle">Küçük işletmeler için hazır e-ticaret vitrini</h1>
+          <p data-setting="heroSubtitle">Ürünlerini fotoğrafla ekle, kategorilerini düzenle, sipariş akışını tek panelden takip et.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="pages/products.html">Ürünleri incele</a>
+            <a class="btn btn-outline" href="admin/index.html">Admin panel</a>
+          </div>
+        </div>
+        <div class="hero-media" aria-label="E-ticaret vitrin görseli"></div>
+      </section>
+
+      <section class="container page-block">
+        <div class="section-title">
+          <div>
+            <h2>Kategoriler</h2>
+            <p class="muted">Kategori yapısı admin panelinden eklenip düzenlenebilir.</p>
+          </div>
+          <a class="btn btn-outline" href="pages/products.html">Tüm ürünler</a>
+        </div>
+        <div class="category-strip" id="homeCategories"></div>
+      </section>
+
+      <section class="container page-block">
+        <div class="section-title">
+          <div>
+            <h2>Öne çıkan ürünler</h2>
+            <p class="muted">Ürün görselleri bağlantı olarak değil, admin panelinden dosya olarak eklenir.</p>
+          </div>
+        </div>
+        <div class="product-grid" id="featuredProducts"></div>
+      </section>
+
+      <section class="container page-block">
+        <div class="feature-band">
+          <div>
+            <h2>Satış demosu için hazır</h2>
+            <p class="muted">Bu sürüm statik çalışır; gerçek sipariş takibi backend aşamasında ortak veritabanına taşınır.</p>
+          </div>
+          <a class="btn btn-secondary" href="admin/products.html">Ürün yönet</a>
+        </div>
+      </section>
+
+      <section class="container page-block">
+        <div class="admin-grid" id="homeStats"></div>
+      </section>
+    </main>
+
+    <div data-component="footer"></div>
+
+    <script src="js/data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="components/product-card/product-card.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/categories.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/orders.js"></script>
+    <script src="components/navbar/navbar.js"></script>
+    <script src="components/footer/footer.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
