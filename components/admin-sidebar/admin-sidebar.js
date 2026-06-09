@@ -19,6 +19,8 @@
           ${item(Utils.adminPath("products.html"), "Ürünler", "products")}
           ${item(Utils.adminPath("categories.html"), "Kategoriler", "categories")}
           ${item(Utils.adminPath("orders.html"), "Siparişler", "orders")}
+          ${item(Utils.adminPath("payment-settings.html"), "Ödeme", "payment-settings")}
+          ${item(Utils.adminPath("shipping-settings.html"), "Kargo", "shipping-settings")}
           ${item(Utils.adminPath("settings.html"), "Ayarlar", "settings")}
         </nav>
         <div class="admin-sidebar-footer">

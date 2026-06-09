@@ -94,6 +94,7 @@
       </ul>
     `;
     renderSummary(totalsBox);
+    window.Payment?.populateCheckoutMethods(form.elements.paymentMethod);
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();

@@ -87,6 +87,8 @@
     if (page === "orders") OrderManager.renderOrdersTable();
     if (page === "order-detail") OrderManager.renderOrderDetail();
     if (page === "settings") bindSettings();
+    if (page === "payment-settings") PaymentManager.bindPaymentSettings();
+    if (page === "shipping-settings") ShippingManager.bindShippingSettings();
   };
 
   document.addEventListener("DOMContentLoaded", initAdminPage);

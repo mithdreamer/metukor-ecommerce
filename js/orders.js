@@ -16,11 +16,29 @@
       return;
     }
 
+    const shippingSettings = Store.getShippingSettings();
+    const trackingVisible = shippingSettings.customerTrackingVisible !== false && order.trackingNumber;
+    const carrier = shippingSettings.carriers.find(
+      (item) => item.id === order.cargoCompany || item.name === order.cargoCompany
+    );
+
     container.innerHTML = `
       <div class="empty-state">
         <span class="badge">Sipariş alındı</span>
         <h1>${order.number}</h1>
         <p class="muted">Siparişiniz oluşturuldu. Admin panelindeki siparişler ekranından takip edilebilir.</p>
+        <div class="summary-row" style="width:min(420px,100%)">
+          <span>Ödeme</span>
+          <strong>${Utils.escapeHTML(order.paymentMethod || "Kapıda ödeme")}</strong>
+        </div>
+        ${
+          trackingVisible
+            ? `<div class="summary-row" style="width:min(420px,100%)">
+                <span>Kargo</span>
+                <strong>${Utils.escapeHTML(carrier?.name || order.cargoCompany || "")} / ${Utils.escapeHTML(order.trackingNumber)}</strong>
+              </div>`
+            : ""
+        }
         <div class="summary-row total" style="width:min(420px,100%)">
           <span>Toplam</span>
           <strong>${Utils.money(order.total)}</strong>

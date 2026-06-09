@@ -22,6 +22,13 @@
     "total": 737,
     "status": "new",
     "paymentMethod": "Kapıda ödeme",
+    "paymentStatus": "pending",
+    "paymentProvider": "manual",
+    "transactionId": "",
+    "cargoCompany": "",
+    "trackingNumber": "",
+    "trackingUrl": "",
+    "shipmentStatus": "pending",
     "note": "Demo sipariş kaydı.",
     "createdAt": "2026-01-20T11:30:00.000Z"
   }

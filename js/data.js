@@ -34,6 +34,98 @@
       freeShippingThreshold: 1500,
       currency: "TRY"
     },
+    paymentSettings: {
+      enabled: true,
+      activeProvider: "iyzico",
+      mode: "test",
+      methods: {
+        creditCard: true,
+        bankTransfer: true,
+        cashOnDelivery: true
+      },
+      credentials: {
+        merchantId: "",
+        apiKey: "",
+        secretKey: ""
+      },
+      callbackUrl: "",
+      installments: {
+        enabled: true,
+        maxCount: 6,
+        minAmount: 500
+      },
+      cardStorage: {
+        enabled: false
+      },
+      bankTransfer: {
+        bankName: "Örnek Bank",
+        accountHolder: "Firma Store",
+        iban: "TR00 0000 0000 0000 0000 0000 00"
+      }
+    },
+    shippingSettings: {
+      defaultCarrier: "yurtici",
+      mode: "manual",
+      trackingRequired: true,
+      customerTrackingVisible: true,
+      labelFormat: "a4",
+      defaultDesi: 1,
+      credentials: {
+        apiUsername: "",
+        apiPasswordToken: "",
+        customerCode: "",
+        branchCode: ""
+      },
+      sender: {
+        name: "Firma Store",
+        phone: "+90 555 000 00 00",
+        address: "İstanbul, Türkiye"
+      },
+      carriers: [
+        {
+          id: "yurtici",
+          name: "Yurtiçi",
+          active: true,
+          integrationReady: true,
+          trackingUrl: ""
+        },
+        {
+          id: "aras",
+          name: "Aras",
+          active: true,
+          integrationReady: true,
+          trackingUrl: ""
+        },
+        {
+          id: "mng",
+          name: "MNG / DHL eCommerce",
+          active: true,
+          integrationReady: true,
+          trackingUrl: ""
+        },
+        {
+          id: "ptt",
+          name: "PTT",
+          active: false,
+          integrationReady: true,
+          trackingUrl: ""
+        },
+        {
+          id: "ups",
+          name: "UPS",
+          active: false,
+          integrationReady: true,
+          trackingUrl: ""
+        },
+        {
+          id: "other",
+          name: "Diğer",
+          active: false,
+          integrationReady: false,
+          trackingUrl: ""
+        }
+      ]
+    },
     categories: [
       {
         id: "cat-home",
@@ -162,6 +254,13 @@
         total: 737,
         status: "new",
         paymentMethod: "Kapıda ödeme",
+        paymentStatus: "pending",
+        paymentProvider: "manual",
+        transactionId: "",
+        cargoCompany: "",
+        trackingNumber: "",
+        trackingUrl: "",
+        shipmentStatus: "pending",
         note: "Demo sipariş kaydı.",
         createdAt: "2026-01-20T11:30:00.000Z"
       }

@@ -4,11 +4,107 @@
     categories: "et.categories",
     orders: "et.orders",
     settings: "et.settings",
+    paymentSettings: "et.paymentSettings",
+    shippingSettings: "et.shippingSettings",
     cart: "et.cart"
   };
 
   const seed = () => window.ECommerceSeed || {};
   const clone = (value) => JSON.parse(JSON.stringify(value));
+
+  const paymentDefaults = {
+    enabled: true,
+    activeProvider: "iyzico",
+    mode: "test",
+    methods: {
+      creditCard: true,
+      bankTransfer: true,
+      cashOnDelivery: true
+    },
+    credentials: {
+      merchantId: "",
+      apiKey: "",
+      secretKey: ""
+    },
+    callbackUrl: "",
+    installments: {
+      enabled: true,
+      maxCount: 6,
+      minAmount: 500
+    },
+    cardStorage: {
+      enabled: false
+    },
+    bankTransfer: {
+      bankName: "Örnek Bank",
+      accountHolder: "Firma Store",
+      iban: "TR00 0000 0000 0000 0000 0000 00"
+    }
+  };
+
+  const shippingDefaults = {
+    defaultCarrier: "yurtici",
+    mode: "manual",
+    trackingRequired: true,
+    customerTrackingVisible: true,
+    labelFormat: "a4",
+    defaultDesi: 1,
+    credentials: {
+      apiUsername: "",
+      apiPasswordToken: "",
+      customerCode: "",
+      branchCode: ""
+    },
+    sender: {
+      name: "Firma Store",
+      phone: "+90 555 000 00 00",
+      address: "İstanbul, Türkiye"
+    },
+    carriers: [
+      {
+        id: "yurtici",
+        name: "Yurtiçi",
+        active: true,
+        integrationReady: true,
+        trackingUrl: ""
+      },
+      {
+        id: "aras",
+        name: "Aras",
+        active: true,
+        integrationReady: true,
+        trackingUrl: ""
+      },
+      {
+        id: "mng",
+        name: "MNG / DHL eCommerce",
+        active: true,
+        integrationReady: true,
+        trackingUrl: ""
+      },
+      {
+        id: "ptt",
+        name: "PTT",
+        active: false,
+        integrationReady: true,
+        trackingUrl: ""
+      },
+      {
+        id: "ups",
+        name: "UPS",
+        active: false,
+        integrationReady: true,
+        trackingUrl: ""
+      },
+      {
+        id: "other",
+        name: "Diğer",
+        active: false,
+        integrationReady: false,
+        trackingUrl: ""
+      }
+    ]
+  };
 
   const read = (key, fallback) => {
     try {
@@ -45,6 +141,8 @@
   const init = () => {
     const data = seed();
     if (!localStorage.getItem(KEYS.settings)) write(KEYS.settings, data.settings || {});
+    if (!localStorage.getItem(KEYS.paymentSettings)) write(KEYS.paymentSettings, data.paymentSettings || paymentDefaults);
+    if (!localStorage.getItem(KEYS.shippingSettings)) write(KEYS.shippingSettings, data.shippingSettings || shippingDefaults);
     if (!localStorage.getItem(KEYS.categories)) write(KEYS.categories, data.categories || []);
     if (!localStorage.getItem(KEYS.products)) write(KEYS.products, data.products || []);
     if (!localStorage.getItem(KEYS.orders)) write(KEYS.orders, data.orders || []);
@@ -53,6 +151,61 @@
 
   const getSettings = () => ({ ...(seed().settings || {}), ...read(KEYS.settings, seed().settings || {}) });
   const saveSettings = (settings) => write(KEYS.settings, { ...getSettings(), ...settings });
+  const getDefaultPaymentSettings = () => clone(seed().paymentSettings || paymentDefaults);
+  const getPaymentSettings = () => ({
+    ...getDefaultPaymentSettings(),
+    ...read(KEYS.paymentSettings, getDefaultPaymentSettings())
+  });
+  const savePaymentSettings = (settings) => write(KEYS.paymentSettings, { ...getPaymentSettings(), ...settings });
+  const getDefaultShippingSettings = () => clone(seed().shippingSettings || shippingDefaults);
+  const mergeCarriers = (defaultCarriers = [], savedCarriers = []) => {
+    const savedById = new Map(
+      (Array.isArray(savedCarriers) ? savedCarriers : [])
+        .filter((carrier) => carrier?.id)
+        .map((carrier) => [carrier.id, carrier])
+    );
+    const merged = defaultCarriers.map((defaultCarrier) => {
+      const savedCarrier = savedById.get(defaultCarrier.id) || {};
+      return {
+        ...defaultCarrier,
+        ...savedCarrier,
+        name: defaultCarrier.name,
+        integrationReady: defaultCarrier.integrationReady
+      };
+    });
+
+    savedById.forEach((savedCarrier, carrierId) => {
+      if (!merged.some((carrier) => carrier.id === carrierId)) merged.push(savedCarrier);
+    });
+
+    return merged;
+  };
+  const mergeShippingSettings = (defaults, settings = {}) => {
+    const source = settings || {};
+    return {
+      ...defaults,
+      ...source,
+      mode: source.mode === "integration-ready" ? "own-contract" : source.mode || defaults.mode || "manual",
+      sender: {
+        ...(defaults.sender || {}),
+        ...(source.sender || {})
+      },
+      credentials: {
+        ...(defaults.credentials || {}),
+        ...(source.credentials || {})
+      },
+      carriers: mergeCarriers(defaults.carriers || [], source.carriers || [])
+    };
+  };
+  const getShippingSettings = () => {
+    const defaults = getDefaultShippingSettings();
+    return mergeShippingSettings(defaults, read(KEYS.shippingSettings, defaults));
+  };
+  const saveShippingSettings = (settings) => {
+    const defaults = getDefaultShippingSettings();
+    const source = settings?.carriers ? settings : { ...getShippingSettings(), ...settings };
+    return write(KEYS.shippingSettings, mergeShippingSettings(defaults, source));
+  };
 
   const getCategories = (options = {}) => {
     const categories = read(KEYS.categories, seed().categories || []);
@@ -200,6 +353,9 @@
     if (!cartItems.length) throw new Error("Sepet boş.");
     const totals = calculateCart(cartItems);
     const orders = getOrders();
+    const paymentSettings = getPaymentSettings();
+    const selectedPaymentMethod = paymentMethod || "Kapıda ödeme";
+    const isCardPayment = selectedPaymentMethod.toLocaleLowerCase("tr-TR").includes("kredi kart");
     const now = new Date();
     const order = {
       id: makeId("ord"),
@@ -215,7 +371,14 @@
       shipping: totals.shipping,
       total: totals.total,
       status: "new",
-      paymentMethod,
+      paymentMethod: selectedPaymentMethod,
+      paymentStatus: isCardPayment ? "paid" : "pending",
+      paymentProvider: isCardPayment ? paymentSettings.activeProvider : "manual",
+      transactionId: "",
+      cargoCompany: "",
+      trackingNumber: "",
+      trackingUrl: "",
+      shipmentStatus: "pending",
       note: note || "",
       createdAt: now.toISOString()
     };
@@ -239,9 +402,46 @@
     return getOrderById(orderId);
   };
 
+  const updateOrderPayment = (orderId, payment) => {
+    const orders = getOrders().map((order) =>
+      order.id === orderId
+        ? {
+            ...order,
+            paymentMethod: payment.paymentMethod ?? order.paymentMethod,
+            paymentStatus: payment.paymentStatus ?? order.paymentStatus ?? "pending",
+            paymentProvider: payment.paymentProvider ?? order.paymentProvider ?? "manual",
+            transactionId: payment.transactionId ?? order.transactionId ?? "",
+            updatedAt: new Date().toISOString()
+          }
+        : order
+    );
+    saveOrders(orders);
+    return getOrderById(orderId);
+  };
+
+  const updateOrderShipping = (orderId, shipping) => {
+    const orders = getOrders().map((order) =>
+      order.id === orderId
+        ? {
+            ...order,
+            cargoCompany: shipping.cargoCompany ?? order.cargoCompany ?? "",
+            trackingNumber: shipping.trackingNumber ?? order.trackingNumber ?? "",
+            trackingUrl: shipping.trackingUrl ?? order.trackingUrl ?? "",
+            shipmentStatus: shipping.shipmentStatus ?? order.shipmentStatus ?? "pending",
+            status: shipping.shipmentStatus === "shipped" ? "shipped" : order.status,
+            updatedAt: new Date().toISOString()
+          }
+        : order
+    );
+    saveOrders(orders);
+    return getOrderById(orderId);
+  };
+
   const resetDemo = () => {
     const data = seed();
     write(KEYS.settings, data.settings || {});
+    write(KEYS.paymentSettings, data.paymentSettings || paymentDefaults);
+    write(KEYS.shippingSettings, data.shippingSettings || shippingDefaults);
     write(KEYS.categories, data.categories || []);
     write(KEYS.products, data.products || []);
     write(KEYS.orders, data.orders || []);
@@ -250,6 +450,8 @@
 
   const exportData = () => ({
     settings: getSettings(),
+    paymentSettings: getPaymentSettings(),
+    shippingSettings: getShippingSettings(),
     categories: getCategories({ includeInactive: true }),
     products: getProducts({ includeInactive: true }),
     orders: getOrders()
@@ -259,6 +461,12 @@
     init,
     getSettings,
     saveSettings,
+    getDefaultPaymentSettings,
+    getPaymentSettings,
+    savePaymentSettings,
+    getDefaultShippingSettings,
+    getShippingSettings,
+    saveShippingSettings,
     getCategories,
     upsertCategory,
     deleteCategory,
@@ -279,6 +487,8 @@
     getOrderById,
     createOrder,
     updateOrderStatus,
+    updateOrderPayment,
+    updateOrderShipping,
     resetDemo,
     exportData,
     slugify
