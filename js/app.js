@@ -17,6 +17,16 @@
     });
   };
 
+  const renderAboutPage = () => {
+    const image = document.querySelector("#aboutImage");
+    const frame = document.querySelector("#aboutImageFrame");
+    if (!image || !frame) return;
+    const aboutImage = Store.getSettings().aboutImage;
+    if (!aboutImage) return;
+    image.src = aboutImage;
+    frame.classList.remove("is-hidden");
+  };
+
   const initPublicPage = () => {
     const page = document.body.dataset.page;
     applySettingsText();
@@ -26,6 +36,7 @@
     if (page === "cart") Cart.renderCartPage();
     if (page === "checkout") Cart.renderCheckoutPage();
     if (page === "order-success") Orders.renderOrderSuccess();
+    if (page === "about") renderAboutPage();
     bindContactForm();
   };
 

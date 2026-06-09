@@ -55,6 +55,13 @@
               <label for="heroSubtitle">Ana sayfa açıklaması</label>
               <textarea id="heroSubtitle" name="heroSubtitle"></textarea>
             </div>
+            <div class="field full-span">
+              <label for="aboutImageFiles">Hakkımızda sayfası fotoğrafı</label>
+              <input id="aboutImageFiles" type="file" accept="image/*">
+              <input id="aboutImage" name="aboutImage" type="hidden" value="">
+              <div class="image-preview-grid single-image-preview" id="aboutImagePreview"></div>
+              <button class="btn btn-outline" id="clearAboutImage" type="button">Fotoğrafı temizle</button>
+            </div>
             <div class="field">
               <label for="shippingFee">Kargo ücreti</label>
               <input id="shippingFee" name="shippingFee" type="number" min="0">

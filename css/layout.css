@@ -16,6 +16,35 @@
   color: var(--color-muted);
 }
 
+.about-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr);
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.about-copy {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.about-media {
+  margin: 0;
+}
+
+.about-media img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  object-fit: cover;
+  background: var(--color-surface-soft);
+  box-shadow: var(--shadow-card);
+}
+
+.is-hidden {
+  display: none;
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
@@ -263,6 +292,7 @@
 
 @media (max-width: 980px) {
   .hero,
+  .about-hero,
   .product-detail,
   .cart-layout,
   .checkout-layout,

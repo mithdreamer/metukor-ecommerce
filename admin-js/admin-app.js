@@ -36,9 +36,30 @@
     const form = document.querySelector("#settingsForm");
     if (!form) return;
     const settings = Store.getSettings();
+
+    const setAboutImage = (image) => {
+      const hidden = document.querySelector("#aboutImage");
+      const preview = document.querySelector("#aboutImagePreview");
+      if (hidden) hidden.value = image || "";
+      if (!preview) return;
+      preview.innerHTML = image
+        ? `<img src="${image}" alt="Hakkımızda fotoğrafı önizleme">`
+        : `<p class="muted">Henüz fotoğraf seçilmedi.</p>`;
+    };
+
     Object.entries(settings).forEach(([key, value]) => {
       if (form.elements[key]) form.elements[key].value = value;
     });
+    setAboutImage(settings.aboutImage || "");
+
+    const aboutImageFiles = document.querySelector("#aboutImageFiles");
+    aboutImageFiles?.addEventListener("change", async () => {
+      const uploaded = await ImageUpload.filesToImages(aboutImageFiles.files);
+      setAboutImage(uploaded[0] || "");
+      aboutImageFiles.value = "";
+    });
+
+    document.querySelector("#clearAboutImage")?.addEventListener("click", () => setAboutImage(""));
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -53,6 +74,7 @@
         adminPassword: data.get("adminPassword"),
         heroTitle: data.get("heroTitle"),
         heroSubtitle: data.get("heroSubtitle"),
+        aboutImage: data.get("aboutImage"),
         shippingFee: Number(data.get("shippingFee")) || 0,
         freeShippingThreshold: Number(data.get("freeShippingThreshold")) || 0
       });

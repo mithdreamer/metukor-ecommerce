@@ -113,6 +113,14 @@
   background: var(--color-surface-soft);
 }
 
+.single-image-preview {
+  grid-template-columns: minmax(180px, 320px);
+}
+
+.single-image-preview img {
+  aspect-ratio: 16 / 10;
+}
+
 @media (max-width: 760px) {
   .form-grid,
   .filter-bar {

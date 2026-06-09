@@ -30,6 +30,7 @@
       heroTitle: "KOBİLER için hazır e-ticaret vitrini",
       heroSubtitle:
         "Ürünlerini fotoğrafla ekle, kategorilerini düzenle, sipariş akışını tek panelden takip et.",
+      aboutImage: "",
       shippingFee: 79,
       freeShippingThreshold: 1500,
       currency: "TRY"
